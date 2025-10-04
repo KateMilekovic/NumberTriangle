@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -88,7 +89,6 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
         return -1;
     }
 
@@ -112,21 +112,37 @@ public class NumberTriangle {
 
         // TODO define any variables that you want to use to store things
 
+
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
         NumberTriangle top = null;
+        ArrayList<ArrayList<NumberTriangle>> triangles = new ArrayList<ArrayList<NumberTriangle>>();
 
         String line = br.readLine();
         while (line != null) {
-
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
-
-            // TODO process the line
-
+            ArrayList<NumberTriangle> level = new ArrayList<NumberTriangle>();
+            for (String s : line.split(" ")) {
+                NumberTriangle k = new NumberTriangle(Integer.parseInt(s));
+                level.add(k);
+            }
+            if (top == null){
+                top = level.get(0);
+            }
+            triangles.add(level);
             //read the next line
             line = br.readLine();
         }
+        for (int i =0; i < triangles.size() - 1; i++) {
+            for(int j =0; j < triangles.get(i).size(); j++) {
+                triangles.get(i).get(j).right =  triangles.get(i + 1).get(j +1);
+                triangles.get(i).get(j).left =  triangles.get(i + 1).get(j);
+            }
+        }
+        //for (int i =0; i < triangles.size(); i++) {
+        //    for (int j =0; j < triangles.get(i).size(); j++) {
+        //        System.out.println(triangles.get(i).get(j).root);
+        //    }
+        //}
         br.close();
         return top;
     }
